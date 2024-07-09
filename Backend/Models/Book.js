@@ -6,6 +6,6 @@ const book=new Schema({
     price:Number,
 
 });
-const books= model('Book',book);
+const booksa= model('Book',book);
 
-export default books;
+export default booksa;

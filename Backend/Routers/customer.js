@@ -10,13 +10,18 @@ const routerin=express.Router();
 routerin.post('/register',async(req,res)=>{
     try{
         const {name,email,password}=req.body;
+        console.log(req.body);
         const customer=await customers.findOne({where:{email}});
+        // const customer=false;
+        console.log(customer);
         if(!customer){
-            // const salt=await bcrypt.genSalt(10);
-            const hashedpassword= await bcrypt.hash(password,12,process.env.jwt_SECRET);
+            const salt = await bcrypt.genSalt(10);
+            const hashedpassword = await bcrypt.hash(password, salt);
+            // const hashedpassword= await  bcrypt.hash(password,12,process.env.jwt_SECRET);
             const newcustomer= new customers({name,email,password:hashedpassword});
             await newcustomer.save();
-            res.send('customer created');
+            const token=jwt.sign({_id:customer._id},process.env.jwt_SECRET);
+            res.header('Authorization',token).json({TOken:token,msg:"customer account Created"});
 
         }else{
             res.send("customer Already registered try to login ");
@@ -43,7 +48,7 @@ routerin.post('/login',async(req,res)=>{
 
         }
         const token=jwt.sign({_id:customer._id},process.env.jwt_SECRET);
-        res.header('Authorization',token).send(token);
+        res.header('Authorization',token).json({Token:token});
 
     }catch(err){
         console.log(err);

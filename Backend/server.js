@@ -8,7 +8,7 @@ import BookDetails from './Routers/books.js';
 
 const app=express();
 app.use(express.json());
-app.use('api/customer',routerin);
+app.use('/customer',routerin);
 app.use('/orders',orderDetails);
 app.use('/books',BookDetails);
 
