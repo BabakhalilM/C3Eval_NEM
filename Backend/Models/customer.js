@@ -21,4 +21,4 @@ export const customers=sequelize.define('customers',{
         allowNull:false,
     }
 })
-// export default customers;
+export default customers;
