@@ -1,24 +1,23 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/homepage';
 import BookDetailsPage from './pages/bookdetails';
-// import HomePage from './pages/HomePage';
-// import BookDetailsPage from './pages/BookDetailsPage';
+import Navbar from './pages/Navbar';
+import LoginForm from './pages/Loginpage';
+import RegisterForm from './pages/registration';
 
 function App() {
   return (
-  <>
-    <HomePage/>
-    <BookDetailsPage></BookDetailsPage>
-    <Routes>
-      {/* <Switch> */}
-        <Route path="/" component={HomePage} />
-        <Route path="/books/:id" component={BookDetailsPage} />
-      {/* </Switch> */}
-    </Routes>
-  </>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/books/:id" element={<BookDetailsPage />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+      </Routes>
+    </>
   );
 }
-
 
 export default App;

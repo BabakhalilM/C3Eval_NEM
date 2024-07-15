@@ -2,12 +2,21 @@ import express from "express";
 import booksa from "../Models/Book.js";
 import reviews from "../Models/Review.js";
 
-const BookDetails = express.Router();
+// const BookDetails = express.Router();
 
 export const all = async (req, res) => {
     try {
         const orders = await booksa.find();
         res.json({ data: orders, msg: "this is all books" });
+    } catch (err) {
+        console.log(err);
+        res.send("internal error in bookdetails fetching");
+    }
+};
+export const bookdetails = async (req, res) => {
+    try {
+        const orders = await booksa.findOne({bookid: req.params.bookid});
+        res.json({ data: orders, msg: `this is details of book ${orders.title}` });
     } catch (err) {
         console.log(err);
         res.send("internal error in bookdetails fetching");
@@ -40,13 +49,9 @@ export const addbook = async (req, res) => {
             return res.status(400).send("All fields are required: title, author, price");
           }
            const newBook = new booksa({ title, author, price });
-
-        // Save the book to the database
         const savedBook = await newBook.save();
 
-        // Send a success response
         res.status(201).json(savedBook);
-        // const add = await booksa.insertMany({ title, author, price });
     } catch (err) {
         console.log(err);
         res.send("Error in posting a book");

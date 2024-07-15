@@ -5,9 +5,9 @@ import role from '../middleware/role.js';
 import { allorders, orderbyid, perticulatorder } from '../controlers/order.js';
 const orderDetails = express.Router();
 
-orderDetails.get('/',protect,role(["admin"]),allorders);
-orderDetails.get('/:id', protect,perticulatorder);
-orderDetails.get('/:id', protect,role(["admin"]),orderbyid);
+orderDetails.get('/',protect,role(["admin","user"]),allorders);
+orderDetails.get('/:id', protect,role(["admin","user"]),perticulatorder);
+orderDetails.get('/:id', protect,role(["admin","user"]),orderbyid);
 // router.get('/logout', logout);
 
 export default orderDetails;

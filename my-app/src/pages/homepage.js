@@ -9,6 +9,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage] = useState(5);
+  
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -31,9 +32,9 @@ const HomePage = () => {
   const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
-
+  
   return (
-    <div> <div>Login?Register</div>
+    <div> 
       <h1>Bookstore</h1>
       <SearchBar />
       <BookList books={currentBooks} loading={loading} />
