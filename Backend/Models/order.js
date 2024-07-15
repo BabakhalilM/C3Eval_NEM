@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../connsection/db.js";
+import sequelize from "../config/db.js";
+// import sequelize from "../connsection/db.js";
 
 const order=sequelize.define('orders',{
     id:{

@@ -1,39 +1,14 @@
-import express from "express";
-import order from "../Models/order.js";
-import auth from "../middleware/auth.js";
-import role from "../middleware/role.js";
+import express from 'express';
+// import { register,login,token,logout } from '../controllers/userRouter.js';
+import protect from '../middleware/auth.js';
+import role from '../middleware/role.js';
+import { allorders, orderbyid, perticulatorder } from '../controlers/order.js';
+const orderDetails = express.Router();
 
-const orderDetails=express.Router();
-
-orderDetails.get('/',auth, role(["admin"]), async(req,res)=>{
-    try{
-    const orders= await order.findAll();
-    res.json({data:orders,msg:"this is all orders"});
-    }catch(err){
-        console.log(err);
-        res.send("internal error in orderdetails fetching");
-    }
-})
-orderDetails.get('/customer/:customerid',auth, async(req,res)=>{
-    try{
-    const orders= await order.findAll({where:{customerId:req.params.customerid}});
-    res.json({data:orders,msg:"this is all orders"});
-    }catch(err){
-        console.log(err);
-        res.send("internal error in orderdetails fetching");
-    }
-})
-
-
-orderDetails.get('/customer/:customerid',auth, role(["admin"]), async(req,res)=>{
-    try{
-    const orders= await order.findAll({where:{customerId:req.params.customerid}});
-    res.json({data:orders,msg:"this is all orders perticulr customer"});
-    }catch(err){
-        console.log(err);
-        res.send("internal error in orderdetails fetching");
-    }
-})
-
+orderDetails.get('/',protect,role(["admin"]),allorders);
+orderDetails.get('/:id', protect,perticulatorder);
+orderDetails.get('/:id', protect,role(["admin"]),orderbyid);
+// router.get('/logout', logout);
 
 export default orderDetails;
+

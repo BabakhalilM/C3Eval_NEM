@@ -1,16 +1,20 @@
 import jwt from 'jsonwebtoken';
-export default function(req,res,next){
-    const token=req.header('authorization');
-    if(!token){
-        return res.status(401).send('access denied');
+import {} from 'dotenv/config';
 
+const protect = (req, res, next) => {
+  let token;
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;
+      next();
+    } catch (err) {
+      return res.status(401).json({ message: 'Not authorized, token failed' });
     }
-    try{
-        const verified=jwt.verify(token,process.env.jwt_SECRET);
-        req.user=verified;
-        next();
-    }catch(err){
-        console.log(err);
-        res.status(400).send("invalid token");
-    }
+  } else {
+    return res.status(401).json({ message: 'Not authorized, no token' });
+  }
 };
+
+export default  protect ;
